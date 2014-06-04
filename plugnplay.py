@@ -17,12 +17,12 @@ def service_resolved(*args):
       TXTrecords.append( "".join(chr(b) for b in array ))
     print 'path:', TXTrecords
     print '\n'
-    url = 'http://' + args[7] + ':' + str(args[8]) + '/' + TXTrecords[0]
+    url = 'http://' + args[7] + ':' + str(args[8]) + '/' + TXTrecords[0][5:]
     print 'fetching: ', url
     jsonurl = urlopen(url)
     text    = json.loads(jsonurl.read())
 
-    print text["sensors"]
+    print text["actuators"]
 
 def print_error(*args):
     print 'error_handler'
