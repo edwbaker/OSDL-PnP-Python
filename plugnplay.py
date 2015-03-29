@@ -3,11 +3,10 @@ from urllib import urlopen
 from dbus import DBusException
 from dbus.mainloop.glib import DBusGMainLoop
 
-# Looks for iTunes shares
-
 TYPE = '_sensor._tcp'
 
 def service_resolved(*args):
+    print args
     print 'service resolved'
     print 'name:', args[2]
     print 'address:', args[7]
@@ -17,12 +16,14 @@ def service_resolved(*args):
       TXTrecords.append( "".join(chr(b) for b in array ))
     print 'path:', TXTrecords
     print '\n'
-    url = 'http://' + args[7] + ':' + str(args[8]) + '/' + TXTrecords[0][5:]
+    url = 'http://' + args[7] + ':' + str(args[8]) + TXTrecords[0][5:]
     print 'fetching: ', url
     jsonurl = urlopen(url)
     text    = json.loads(jsonurl.read())
 
-    print text["actuators"]
+    for sensor in text["sensors"]:
+        print sensor
+        print type(sensor[request_path])        
 
 def print_error(*args):
     print 'error_handler'
